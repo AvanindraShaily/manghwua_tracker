@@ -1,7 +1,8 @@
 from rest_framework import viewsets
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from .models import Manga, Link, Progress
-from .serializers import MangaSerializer, LinkSerializer, ProgressSerializer
+from .serializers import MangaSerializer, LinkSerializer, ProgressSerializer, RegisterSerializer
 
 class MangaViewSet(viewsets.ModelViewSet):
     queryset = Manga.objects.all().order_by("-created_at")
@@ -20,3 +21,8 @@ class ProgressViewSet(viewsets.ModelViewSet):
     serializer_class = ProgressSerializer
     #permission_classes = [IsAuthenticatedOrReadOnly]
     permission_classes = [AllowAny]
+
+class RegisterView(generics.CreateAPIView):
+    queryset         = User.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = RegisterSerializer
